@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konami / eFootball News</title>
+
+<style>
+body {
+  margin:0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background:#0b0b0b;
+  color:#fff;
+}
+header {
+  background:#111;
+  padding:25px 15px;
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  border-bottom:4px solid #00ffcc;
+  letter-spacing:1px;
+}
+.news-container {
+  max-width:960px;
+  margin:auto;
+  padding:20px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap:20px;
+}
+.news-card {
+  background:#161616;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 5px 15px rgba(0,0,0,0.6);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display:flex;
+  flex-direction: column;
+}
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.8);
+}
+.news-card img {
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+.news-content {
+  padding:15px;
+  flex:1;
+  display:flex;
+  flex-direction: column;
+}
+.news-title {
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:8px;
+  line-height:1.2;
+}
+.news-date {
+  font-size:12px;
+  color:#aaa;
+  margin-bottom:12px;
+}
+.news-summary {
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:12px;
+  flex:1;
+}
+.news-link {
+  color:#00ffcc;
+  text-decoration:none;
+  font-weight:bold;
+  margin-top:auto;
+}
+.news-link:hover {
+  text-decoration:underline;
+}
+.today-badge {
+  display:inline-block;
+  background:#ff2e63;
+  color:#fff;
+  font-size:11px;
+  font-weight:bold;
+  padding:2px 6px;
+  border-radius:6px;
+  margin-left:8px;
+  vertical-align:middle;
+}
+@media(max-width:400px){
+  header { font-size:22px; padding:15px; }
+}
+</style>
+</head>
+<body>
+
+<header>KONAMI / eFOOTBALL NEWS</header>
+
+<div class="news-container" id="news">
+  <p>Loading news...</p>
+</div>
+
+<script>
+// -------------------------
+// JSON Data (All news here)
+// -------------------------
+const newsData = [
+  {
+    "title": "eFootball 2026 v5.2.2 Patch Released",
+    "date": "2026-01-08",
+    "summary": "The latest patch update introduces bug fixes, stability improvements, and Treasure Link preparations.",
+    "link": "https://gamingonphone.com/news/efootball-2026-v5-2-2-update-explained/",
+    "image": "https://gamingonphone.com/wp-content/uploads/2026/01/efootball26-patch.jpg"
+  },
+  {
+    "title": "Treasure Link Jan ’26 Event Begins",
+    "date": "2026-01-08",
+    "summary": "The Treasure Link campaign for January is active with rewards and objectives running through Jan 22.",
+    "link": "https://gamingonphone.com/news/efootball-2026-treasure-link-jan-26-whats-new-and-all-rewards-explained/",
+    "image": "https://gamingonphone.com/wp-content/uploads/2026/01/treasure-link-jan26.jpg"
+  },
+  {
+    "title": "eFootball Update Details: Link‑Up Epics",
+    "date": "2026-01-08",
+    "summary": "Patch v5.2.2 includes new Link‑Up playstyle features and returning events.",
+    "link": "https://gamingonphone.com/news/efootball-2026-v5-2-2-update-explained/",
+    "image": "https://gamingonphone.com/wp-content/uploads/2026/01/link-up-epics.jpg"
+  }
+];
+
+// -------------------------
+// Render news dynamically
+// -------------------------
+const container = document.getElementById("news");
+container.innerHTML = "";
+
+const today = new Date().toISOString().slice(0,10); // YYYY-MM-DD
+
+// Sort newest first
+newsData.sort((a,b)=> new Date(b.date) - new Date(a.date));
+
+newsData.forEach(item => {
+  const isToday = item.date === today ? `<span class="today-badge">TODAY</span>` : '';
+  container.innerHTML += `
+    <div class="news-card">
+      <img src="${item.image}" alt="News Image">
+      <div class="news-content">
+        <div class="news-title">${item.title} ${isToday}</div>
+        <div class="news-date">${item.date}</div>
+        <div class="news-summary">${item.summary}</div>
+        <a class="news-link" href="${item.link}" target="_blank">Read more →</a>
+      </div>
+    </div>
+  `;
+});
+</script>
+
+</body>
+</html>
